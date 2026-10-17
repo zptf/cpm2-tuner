@@ -1,0 +1,269 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>CPM 2 Tuner</title>
+<meta name="description" content="Free graphics and performance tuner for Car Parking Multiplayer 2 on Steam. Presets, FPS monitor, NVIDIA guide, Discord status.">
+<meta property="og:title" content="CPM 2 Tuner">
+<meta property="og:description" content="Better graphics and more FPS in Car Parking Multiplayer 2 - without touching game files.">
+<meta property="og:image" content="logo.png">
+<link rel="icon" href="logo.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;800&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:#0B0D11; --bg2:#11141A; --card:#161A21; --line:#232833; --fg:#E9ECF2; --muted:#8C93A3;
+    --accent:#FF5A1F; --accent2:#FF8A4C; --ok:#3DDC84;
+  }
+  *{box-sizing:border-box}
+  html,body{margin:0;background:var(--bg);color:var(--fg);font-family:Inter,"Segoe UI",system-ui,sans-serif;-webkit-font-smoothing:antialiased}
+  a{color:inherit;text-decoration:none}
+  .wrap{max-width:1100px;margin:0 auto;padding:0 24px}
+
+  nav{position:sticky;top:0;z-index:10;background:rgba(11,13,17,.8);backdrop-filter:blur(12px);border-bottom:1px solid var(--line)}
+  nav .wrap{display:flex;align-items:center;gap:14px;height:64px}
+  nav img{width:34px;height:34px;border-radius:9px}
+  nav b{font-weight:600}
+  nav .sp{flex:1}
+  .lang{display:flex;background:var(--card);border-radius:8px;padding:3px}
+  .lang button{border:0;background:transparent;color:var(--muted);font:600 12px Inter;padding:6px 11px;border-radius:6px;cursor:pointer}
+  .lang button.on{background:var(--accent);color:#fff}
+  .gh{color:var(--muted);font-size:14px}
+  .gh:hover{color:var(--fg)}
+
+  .hero{position:relative;overflow:hidden;padding:96px 0 80px}
+  .hero:before{content:"";position:absolute;inset:-40% -10% auto auto;width:720px;height:720px;
+    background:radial-gradient(closest-side,rgba(255,90,31,.28),transparent);pointer-events:none}
+  .hero .wrap{display:grid;grid-template-columns:1.2fr .8fr;gap:48px;align-items:center}
+  .tag{display:inline-flex;gap:8px;align-items:center;font-size:12px;font-weight:600;letter-spacing:.06em;color:var(--accent2);
+    background:rgba(255,90,31,.1);border:1px solid rgba(255,90,31,.25);padding:6px 12px;border-radius:999px;text-transform:uppercase}
+  h1{font-size:clamp(40px,6vw,64px);line-height:1.02;margin:18px 0 18px;font-weight:800;letter-spacing:-.03em}
+  h1 span{color:var(--accent)}
+  .lead{font-size:18px;line-height:1.6;color:var(--muted);max-width:560px;margin:0 0 30px}
+  .cta{display:flex;flex-wrap:wrap;gap:12px;align-items:center}
+  .btn{display:inline-flex;align-items:center;gap:10px;font-weight:600;font-size:16px;padding:15px 24px;border-radius:12px;transition:transform .15s,opacity .15s}
+  .btn:hover{transform:translateY(-1px)}
+  .btn.primary{background:var(--accent);color:#fff;box-shadow:0 10px 30px -10px rgba(255,90,31,.7)}
+  .btn.ghost{background:var(--card);border:1px solid var(--line)}
+  .meta{margin-top:16px;font-size:13px;color:var(--muted)}
+  .meta i{font-style:normal;color:var(--ok)}
+  .logo-big{justify-self:center;width:min(320px,80%);aspect-ratio:1;border-radius:28%;
+    box-shadow:0 40px 80px -30px rgba(255,90,31,.55),0 0 0 1px rgba(255,255,255,.04);transform:rotate(-4deg)}
+
+  section{padding:72px 0;border-top:1px solid var(--line)}
+  h2{font-size:32px;letter-spacing:-.02em;margin:0 0 10px}
+  .sub{color:var(--muted);margin:0 0 36px;font-size:16px}
+  .grid{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
+  .card{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:22px}
+  .card .ic{width:40px;height:40px;border-radius:10px;display:grid;place-items:center;background:rgba(255,90,31,.12);color:var(--accent);margin-bottom:14px}
+  .card h3{margin:0 0 6px;font-size:16px}
+  .card p{margin:0;color:var(--muted);font-size:14px;line-height:1.55}
+
+  .shots{display:grid;grid-template-columns:repeat(2,1fr);gap:16px}
+  .shots img{width:100%;border-radius:14px;border:1px solid var(--line);display:block}
+
+  .safe{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+  .safe ul{margin:0;padding:0;list-style:none}
+  .safe li{display:flex;gap:10px;padding:8px 0;color:var(--muted);font-size:15px;line-height:1.5}
+  .safe li b{color:var(--fg);font-weight:500}
+  .yes:before,.no:before{flex:none;width:22px;height:22px;border-radius:6px;display:grid;place-items:center;font-size:13px;font-weight:700}
+  .yes:before{content:"\2713";background:rgba(61,220,132,.14);color:var(--ok)}
+  .no:before{content:"\2715";background:rgba(239,68,68,.14);color:#EF4444}
+
+  details{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:16px 20px;margin-bottom:10px}
+  summary{cursor:pointer;font-weight:600;list-style:none}
+  summary::-webkit-details-marker{display:none}
+  summary:after{content:"+";float:right;color:var(--muted)}
+  details[open] summary:after{content:"\2212"}
+  details p{color:var(--muted);line-height:1.6;margin:12px 0 0;font-size:15px}
+
+  footer{border-top:1px solid var(--line);padding:32px 0;color:var(--muted);font-size:14px}
+  footer .wrap{display:flex;flex-wrap:wrap;gap:12px;justify-content:space-between}
+  footer b{color:var(--fg)}
+
+  @media (max-width:860px){
+    .hero{padding:56px 0}
+    .hero .wrap{grid-template-columns:1fr}
+    .logo-big{width:160px;order:-1;justify-self:start}
+    .grid{grid-template-columns:1fr 1fr}
+    .safe,.shots{grid-template-columns:1fr}
+  }
+  @media (max-width:560px){ .grid{grid-template-columns:1fr} .gh{display:none} }
+</style>
+</head>
+<body>
+
+<nav>
+  <div class="wrap">
+    <img src="logo.png" alt="">
+    <b>CPM 2 Tuner</b>
+    <span class="sp"></span>
+    <a class="gh" href="https://github.com/zptf/cpm2-tuner" target="_blank" rel="noopener">GitHub</a>
+    <div class="lang"><button data-l="pt">PT</button><button data-l="en">EN</button></div>
+  </div>
+</nav>
+
+<header class="hero">
+  <div class="wrap">
+    <div>
+      <span class="tag" data-t="tag">Car Parking Multiplayer 2 · Steam</span>
+      <h1 data-t="h1">Better graphics.<br><span>More FPS.</span></h1>
+      <p class="lead" data-t="lead">Presets beyond the in-game sliders, a live FPS monitor, NVIDIA tips and Discord status - in one small app that never touches the game files.</p>
+      <div class="cta">
+        <a class="btn primary" id="dl" href="https://github.com/zptf/cpm2-tuner/raw/main/CPM2%20Tuner.exe">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v12m0 0l-5-5m5 5l5-5M4 21h16"/></svg>
+          <span data-t="dl">Download for Windows</span>
+        </a>
+        <a class="btn ghost" href="#features" data-t="more">See features</a>
+      </div>
+      <div class="meta"><span id="ver">v3</span> · <span data-t="meta">Windows 10/11 · free · nothing to install · updates itself</span></div>
+    </div>
+    <img class="logo-big" src="logo.png" alt="CPM 2 Tuner">
+  </div>
+</header>
+
+<section id="features">
+  <div class="wrap">
+    <h2 data-t="f.h">Everything in one place</h2>
+    <p class="sub" data-t="f.sub">Built for CPM 2 on PC. Works with any GPU, extra features for NVIDIA RTX.</p>
+    <div class="grid" id="feat"></div>
+  </div>
+</section>
+
+<section id="shots-sec" hidden>
+  <div class="wrap">
+    <h2 data-t="s.h">Screenshots</h2>
+    <p class="sub" data-t="s.sub">Dark or light, 8 accent colours, Portuguese or English.</p>
+    <div class="shots" id="shots"></div>
+  </div>
+</section>
+
+<section>
+  <div class="wrap">
+    <h2 data-t="safe.h">Safe for your account</h2>
+    <p class="sub" data-t="safe.sub">CPM 2 has anti-cheat and your progress is online. The tuner stays on the safe side.</p>
+    <div class="safe">
+      <div class="card"><ul id="yes"></ul></div>
+      <div class="card"><ul id="no"></ul></div>
+    </div>
+  </div>
+</section>
+
+<section>
+  <div class="wrap">
+    <h2>FAQ</h2>
+    <p class="sub"></p>
+    <div id="faq"></div>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap">
+    <span><b>App built by: zptf</b></span>
+    <span data-t="foot">Not affiliated with OGames. FPS capture uses Intel PresentMon (MIT).</span>
+  </div>
+</footer>
+
+<script>
+const ICONS = {
+  sliders:'<path d="M4 6h10M18 6h2M4 12h4M12 12h8M4 18h12M20 18h0"/><circle cx="16" cy="6" r="2"/><circle cx="10" cy="12" r="2"/><circle cx="18" cy="18" r="2"/>',
+  gauge:'<path d="M12 14l4-4"/><path d="M3.3 17a9 9 0 1 1 17.4 0"/>',
+  flask:'<path d="M9 3h6M10 3v6L4 19a1 1 0 0 0 .9 1.5h14.2A1 1 0 0 0 20 19l-6-10V3"/>',
+  image:'<rect x="3" y="4" width="18" height="16" rx="2"/><path d="M12 4v16"/>',
+  chip:'<rect x="6" y="6" width="12" height="12" rx="2"/><path d="M9 2v4M15 2v4M9 18v4M15 18v4M2 9h4M2 15h4M18 9h4M18 15h4"/>',
+  rocket:'<path d="M5 15c-1.5 1.5-2 5-2 5s3.5-.5 5-2M14 4c3 0 6 3 6 6l-8 8-6-6 8-8z"/><circle cx="15" cy="9" r="1.5"/>',
+  discord:'<path d="M8 17c-3 0-5-1-5-1 0-5 2-9 2-9s2-1.5 4-1.5l.5 1M16 17c3 0 5-1 5-1 0-5-2-9-2-9s-2-1.5-4-1.5l-.5 1M7.5 7.5c3-1 6-1 9 0M7 16c3 1.3 7 1.3 10 0"/><circle cx="9.5" cy="12" r="1"/><circle cx="14.5" cy="12" r="1"/>',
+  refresh:'<path d="M20 11a8 8 0 0 0-14.9-3M4 4v4h4M4 13a8 8 0 0 0 14.9 3M20 20v-4h-4"/>',
+  clock:'<circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/>'
+};
+const L = {
+  en:{
+    tag:'Car Parking Multiplayer 2 · Steam', h1:'Better graphics.<br><span>More FPS.</span>',
+    lead:'Presets beyond the in-game sliders, a live FPS monitor, NVIDIA tips and Discord status - in one small app that never touches the game files.',
+    dl:'Download for Windows', more:'See features', meta:'Windows 10/11 · free · nothing to install · updates itself',
+    'f.h':'Everything in one place', 'f.sub':'Built for CPM 2 on PC. Works with any GPU, extra features for NVIDIA RTX.',
+    feats:[
+      ['sliders','Presets that go further','Ultra+, Balanced Beauty, Max FPS and your own. Push draw distance and detail past the in-game sliders, with the FPS cost of every setting.'],
+      ['gauge','FPS monitor + overlay','Live FPS, 1% lows, GPU load and temperature. Every session is saved with a graph so you can compare presets.'],
+      ['flask','Hidden settings tester','Find out what the game\'s unknown settings do. Test one value, play, keep it or go back.'],
+      ['image','Before / after','Drag a slider across two screenshots to see what a preset really changes.'],
+      ['chip','NVIDIA made easy','DLDSR resolutions, RTX Dynamic Vibrance, Smooth Motion and RTX HDR, step by step.'],
+      ['clock','Day & night presets','Pick one preset for the day and another for the night. Play chooses the right one.'],
+      ['rocket','Performance','Steam launch options, high-performance GPU, CPU priority and cleanup in a click.'],
+      ['discord','Discord status','Shows your preset and FPS on your profile. Works automatically.'],
+      ['refresh','Always up to date','One exe, no install. New versions download and install themselves.']
+    ],
+    's.h':'Screenshots', 's.sub':'Dark or light, 8 accent colours, Portuguese or English.',
+    'safe.h':'Safe for your account', 'safe.sub':'CPM 2 has anti-cheat and your progress is online. The tuner stays on the safe side.',
+    yes:['<b>Edits the game\'s own settings file</b> - the same one the in-game menu writes','<b>Steam launch options</b> and a <b>Windows GPU preference</b>','Backs up your settings before every change - restore in one click'],
+    no:['<b>Never</b> changes game files or textures','<b>Never</b> injects into the game or reads its memory','<b>Never</b> touches your save or account data'],
+    faq:[
+      ['Windows says "Windows protected your PC"','The exe is not signed (signing costs money). Click More info > Run anyway. The code is public in the GitHub repo.'],
+      ['Why does the FPS monitor ask for admin?','It uses Intel PresentMon, which Windows only allows for admins. In the FPS monitor page click "Stop asking for admin every time" once.'],
+      ['Can I get banned?','The tuner only changes what the in-game menu and Steam already let you change. No injection, no file mods.'],
+      ['Does it work on AMD / Intel GPUs?','Yes. Presets, FPS monitor and everything else work. The NVIDIA page and GPU temperature are NVIDIA only.']
+    ],
+    foot:'Not affiliated with OGames. FPS capture uses Intel PresentMon (MIT).'
+  },
+  pt:{
+    tag:'Car Parking Multiplayer 2 · Steam', h1:'Melhores gráficos.<br><span>Mais FPS.</span>',
+    lead:'Presets para além dos limites do jogo, monitor de FPS em direto, dicas NVIDIA e estado no Discord - numa app pequena que nunca mexe nos ficheiros do jogo.',
+    dl:'Descarregar para Windows', more:'Ver funções', meta:'Windows 10/11 · grátis · sem instalação · atualiza-se sozinho',
+    'f.h':'Tudo num só sítio', 'f.sub':'Feito para o CPM 2 no PC. Funciona com qualquer GPU, com extras para NVIDIA RTX.',
+    feats:[
+      ['sliders','Presets que vão mais longe','Ultra+, Balanced Beauty, Max FPS e os teus. Distância e detalhe acima dos limites do jogo, com o custo em FPS de cada opção.'],
+      ['gauge','Monitor de FPS + overlay','FPS em direto, 1% low, carga e temperatura da GPU. Cada sessão fica guardada com gráfico para comparares presets.'],
+      ['flask','Teste de definições ocultas','Descobre o que fazem as definições desconhecidas. Testa um valor, joga, mantém ou volta atrás.'],
+      ['image','Antes / depois','Arrasta uma barra entre duas capturas para veres o que um preset muda mesmo.'],
+      ['chip','NVIDIA sem complicações','Resoluções DLDSR, RTX Dynamic Vibrance, Smooth Motion e RTX HDR, passo a passo.'],
+      ['clock','Presets de dia e noite','Um preset para o dia e outro para a noite. O Jogar escolhe o certo.'],
+      ['rocket','Desempenho','Opções de arranque da Steam, GPU de alto desempenho, prioridade do CPU e limpeza num clique.'],
+      ['discord','Estado no Discord','Mostra o teu preset e os FPS no perfil. Funciona sozinho.'],
+      ['refresh','Sempre atualizado','Um só exe, sem instalação. As versões novas descarregam e instalam sozinhas.']
+    ],
+    's.h':'Capturas', 's.sub':'Escuro ou claro, 8 cores de destaque, português ou inglês.',
+    'safe.h':'Seguro para a tua conta', 'safe.sub':'O CPM 2 tem anti-cheat e o teu progresso está online. O tuner fica do lado seguro.',
+    yes:['<b>Altera o ficheiro de definições do próprio jogo</b> - o mesmo que o menu do jogo escreve','<b>Opções de arranque da Steam</b> e uma <b>preferência de GPU do Windows</b>','Faz cópia das definições antes de cada mudança - repões num clique'],
+    no:['<b>Nunca</b> altera ficheiros ou texturas do jogo','<b>Nunca</b> injeta nada no jogo nem lê a memória dele','<b>Nunca</b> mexe nos teus saves ou na conta'],
+    faq:[
+      ['O Windows diz "O Windows protegeu o PC"','O exe não está assinado (assinar custa dinheiro). Clica em Mais informações > Executar mesmo assim. O código é público no GitHub.'],
+      ['Porque é que o monitor de FPS pede admin?','Usa o Intel PresentMon, que o Windows só permite a admins. Na página Monitor de FPS clica uma vez em "Deixar de pedir admin sempre".'],
+      ['Posso levar ban?','O tuner só muda o que o menu do jogo e a Steam já te deixam mudar. Sem injeção, sem mods de ficheiros.'],
+      ['Funciona com GPUs AMD / Intel?','Sim. Presets, monitor de FPS e o resto funcionam. A página NVIDIA e a temperatura da GPU são só NVIDIA.']
+    ],
+    foot:'Sem ligação à OGames. A captura de FPS usa o Intel PresentMon (MIT).'
+  }
+};
+const SHOTS = ['screenshots/graphics.png','screenshots/monitor.png','screenshots/nvidia.png','screenshots/tester.png'];
+
+function render(lang){
+  const t = L[lang]; document.documentElement.lang = lang;
+  document.querySelectorAll('[data-t]').forEach(el => { const v = t[el.dataset.t]; if (v !== undefined) el.innerHTML = v; });
+  document.getElementById('feat').innerHTML = t.feats.map(f =>
+    `<div class="card"><div class="ic"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round">${ICONS[f[0]]}</svg></div><h3>${f[1]}</h3><p>${f[2]}</p></div>`).join('');
+  document.getElementById('yes').innerHTML = t.yes.map(x => `<li class="yes"><span>${x}</span></li>`).join('');
+  document.getElementById('no').innerHTML = t.no.map(x => `<li class="no"><span>${x}</span></li>`).join('');
+  document.getElementById('faq').innerHTML = t.faq.map(q => `<details><summary>${q[0]}</summary><p>${q[1]}</p></details>`).join('');
+  document.querySelectorAll('.lang button').forEach(b => b.classList.toggle('on', b.dataset.l === lang));
+  try { localStorage.setItem('lang', lang); } catch (e) {}
+}
+let lang = 'en';
+try { lang = localStorage.getItem('lang') || ((navigator.language || '').toLowerCase().startsWith('pt') ? 'pt' : 'en'); } catch (e) {}
+document.querySelectorAll('.lang button').forEach(b => b.onclick = () => render(b.dataset.l));
+render(lang);
+
+fetch('version.json?t=' + Date.now()).then(r => r.json()).then(j => { document.getElementById('ver').textContent = 'v' + j.version; }).catch(() => {});
+
+// screenshots: only show the ones that exist
+(async () => {
+  const ok = [];
+  for (const s of SHOTS) { try { const r = await fetch(s, { method: 'HEAD' }); if (r.ok) ok.push(s); } catch (e) {} }
+  if (ok.length) {
+    document.getElementById('shots').innerHTML = ok.map(s => `<img src="${s}" alt="" loading="lazy">`).join('');
+    document.getElementById('shots-sec').hidden = false;
+  }
+})();
+</script>
+</body>
+</html>

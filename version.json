@@ -1,5 +1,11 @@
 {
-  "version": "3.2.2",
+  "version": "3.3.0",
   "file": "CPM2 Tuner.exe",
-  "notes": "Updates now download and install automatically."
+  "notes": "Screen picker (resolution + borderless), NVIDIA page, What's new popup.",
+  "changelog": {
+    "3.3.0": {
+      "en": "- Graphics > Screen: pick resolution (DLDSR ones are marked) and display mode (exclusive / borderless / windowed).\n- New NVIDIA page: your GPU, DLDSR status and step-by-step DLDSR, RTX Dynamic Vibrance, Smooth Motion and RTX HDR.\n- This window: shows what changed after every update.",
+      "pt": "- Gráficos > Ecrã: escolhe a resolução (as DLDSR aparecem marcadas) e o modo de ecrã (exclusivo / sem bordas / janela).\n- Nova página NVIDIA: a tua GPU, estado do DLDSR e passos para DLDSR, RTX Dynamic Vibrance, Smooth Motion e RTX HDR.\n- Esta janela: mostra o que mudou depois de cada atualização."
+    }
+  }
 }
